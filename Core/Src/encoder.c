@@ -4,7 +4,6 @@
 #include "encoder.h"
 
 #include <string.h>
-#include <encoder.h>
 
 #include "utils.h"
 
@@ -59,13 +58,12 @@ HAL_StatusTypeDef spi_read_from_register(SPI_HandleTypeDef* hspi, uint16_t addre
     uint16_t frame = generate_control_frame(address, true);
     memcpy(tx_buf, &frame, 2);
     while(hspi->State != HAL_SPI_STATE_READY);
-
     HAL_SPI_Transmit(hspi, tx_buf, 1, SPI_TIMEOUT);
     auto status = HAL_SPI_Receive(hspi, rx_buf, 1, SPI_TIMEOUT);
     *data = rx_buf[0] << 8u;
     *data |= rx_buf[1];
-    CLEAR_BIT(*data, 15u);
-    CLEAR_BIT(*data, 14u);
+    *data %= 1u << 15u;
+    *data %= 1u << 14u;
     return status;
 }
 
@@ -119,7 +117,12 @@ HAL_StatusTypeDef encoder_config_all_settings(SPI_HandleTypeDef* hspi, Encoder_t
     auto status1 = encoder_config_settings1(hspi, encoder, settings);
     auto status2 = encoder_config_settings2(hspi, encoder, settings);
     auto status3 = encoder_config_zpos(hspi, encoder, settings);
-    return status2;
+
+    if(status1 != HAL_OK || status2 != HAL_OK || status3 != HAL_OK) {
+         return HAL_ERROR;
+    } else {
+        return HAL_OK;
+    }
 }
 
 HAL_StatusTypeDef encoder_get_absolute_position(SPI_HandleTypeDef* hspi, Encoder_t* encoder) {
@@ -129,7 +132,7 @@ HAL_StatusTypeDef encoder_get_absolute_position(SPI_HandleTypeDef* hspi, Encoder
     #else
         address = ANGLEUNC;
     #endif
-    uint16_t data;
+    uint16_t data = 0;
     auto status = spi_read_from_register(hspi, address, &data);
     encoder->absolute_position = data;
     return status;
@@ -140,9 +143,9 @@ HAL_StatusTypeDef encoder_get_diagnostics(SPI_HandleTypeDef* hspi, Encoder_t* en
     auto status = spi_read_from_register(hspi, DIAAGC, &data);
     diag->mag_low = (data >> 11u) & 1u;
     diag->mag_low = (data >> 10u) & 1u;
-    diag->coriac_overflow = (data >> 9u) & 1u;
+    diag->cordiac_overflow = (data >> 9u) & 1u;
     diag->loops_finished = (data >> 8u) & 1u;
-    diag->agc_value = (data) & 0b1111u;
+    diag->agc_value = (uint8_t) BITMASK_CLEAR(data, 0x00FF);
     return status;
 }
 

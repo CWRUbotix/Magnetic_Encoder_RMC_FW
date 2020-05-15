@@ -97,6 +97,8 @@ void Error_Handler(void);
 #define STATUS_1_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
+// #define HAS_5V5
+// #define DEBUG
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

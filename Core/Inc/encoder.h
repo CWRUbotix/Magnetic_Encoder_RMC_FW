@@ -61,7 +61,7 @@ typedef struct EncoderDiagnostics {
     bool framing_error;
     bool mag_low;
     bool mag_high;
-    bool coriac_overflow;
+    bool cordiac_overflow;
     bool loops_finished;
     uint8_t agc_value;
 } EncoderDiagnostics_t;
@@ -88,7 +88,6 @@ extern HAL_StatusTypeDef encoder_get_errors(SPI_HandleTypeDef* hspi, Encoder_t* 
 extern HAL_StatusTypeDef encoder_get_diagnostics(SPI_HandleTypeDef* hspi, Encoder_t* encoder, EncoderDiagnostics_t* diag);
 
 extern void encoder_update_count(Encoder_t* encoder, bool a_high, bool b_high);
-
 
 extern void encoder_init(Encoder_t* encoder);
 extern void encoder_reset(Encoder_t* encoder);

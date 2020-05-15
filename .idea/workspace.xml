@@ -11,7 +11,22 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="862859fc-0b61-453c-9618-cc8ab3c12cc0" name="Default Changelist" comment="" />
+    <list default="true" id="862859fc-0b61-453c-9618-cc8ab3c12cc0" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Inc/can.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Src/can.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Core/Src/memory.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.mxproject" beforeDir="false" afterPath="$PROJECT_DIR$/.mxproject" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Inc/encoder.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/encoder.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Inc/main.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/main.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Inc/memory.h" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Inc/memory.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Src/encoder.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/encoder.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Src/stm32f1xx_hal_msp.c" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Src/stm32f1xx_hal_msp.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MagEncoderRMC.ioc" beforeDir="false" afterPath="$PROJECT_DIR$/MagEncoderRMC.ioc" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,7 +58,7 @@
     <option name="nodes">
       <map>
         <entry key="STM32F103.svd" value="-E" />
-        <entry key="STM32F103.svd|g:CAN" value="-E" />
+        <entry key="STM32F103.svd|g:CAN" value="-C" />
         <entry key="STM32F103.svd|g:DMA" value="-E" />
         <entry key="STM32F103.svd|g:GPIO" value="-E" />
         <entry key="STM32F103.svd|g:I2C" value="-E" />
@@ -51,7 +66,7 @@
         <entry key="STM32F103.svd|g:SPI" value="-E" />
         <entry key="STM32F103.svd|g:TIM" value="-E" />
         <entry key="STM32F103.svd|g:USART" value="-E" />
-        <entry key="STM32F103.svd|p:CAN1" value="-E" />
+        <entry key="STM32F103.svd|p:CAN1" value="-C" />
         <entry key="STM32F103.svd|p:CAN1|CAN_BTR" value="HC" />
         <entry key="STM32F103.svd|p:CAN1|CAN_ESR" value="HC" />
         <entry key="STM32F103.svd|p:CAN1|CAN_FA1R" value="HC" />
@@ -160,7 +175,7 @@
         <entry key="STM32F103.svd|p:DMA1|CPAR6" value="HC" />
         <entry key="STM32F103.svd|p:DMA1|CPAR7" value="HC" />
         <entry key="STM32F103.svd|p:DMA1|IFCR" value="HC" />
-        <entry key="STM32F103.svd|p:DMA1|ISR" value="HC" />
+        <entry key="STM32F103.svd|p:DMA1|ISR" value="HE" />
         <entry key="STM32F103.svd|p:DMA2" value="-E" />
         <entry key="STM32F103.svd|p:DMA2|CCR1" value="HC" />
         <entry key="STM32F103.svd|p:DMA2|CCR2" value="HC" />
@@ -596,7 +611,11 @@
     </option>
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1bQ5supCZ8Z21fZhdRtoma0jSTJ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -604,6 +623,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="settings.editor.selected.configurable" value="CPPToolchains" />
   </component>
@@ -645,7 +665,8 @@
       <workItem from="1588569840835" duration="1115000" />
       <workItem from="1588571402090" duration="542000" />
       <workItem from="1588572666987" duration="46256000" />
-      <workItem from="1589421673150" duration="11021000" />
+      <workItem from="1589421673150" duration="18797000" />
+      <workItem from="1589492260876" duration="9625000" />
     </task>
     <servers />
   </component>
@@ -661,78 +682,109 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="104" y="62" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.800@0.0.1280.800" timestamp="1589425387235" />
+    <state x="328" y="143" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1589492034057">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="328" y="143" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1280.800@0.0.1280.800" timestamp="1589492034057" />
     <state width="429" height="466" key="DebuggerActiveHint" timestamp="1589441184331">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state width="429" height="466" key="DebuggerActiveHint/0.0.1280.800@0.0.1280.800" timestamp="1589441184331" />
-    <state width="1238" height="286" key="GridCell.Tab.0.bottom" timestamp="1589443990150">
+    <state width="1238" height="242" key="GridCell.Tab.0.bottom" timestamp="1589503271466">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="286" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1589443990150" />
+    <state width="1238" height="242" key="GridCell.Tab.0.bottom/0.0.1280.800@0.0.1280.800" timestamp="1589503271466" />
     <state width="1238" height="259" key="GridCell.Tab.0.bottom/0.23.1280.732@0.23.1280.732" timestamp="1588570933548" />
-    <state width="1238" height="286" key="GridCell.Tab.0.center" timestamp="1589443990149">
+    <state width="1238" height="242" key="GridCell.Tab.0.center" timestamp="1589503271464">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="286" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1589443990149" />
+    <state width="1238" height="242" key="GridCell.Tab.0.center/0.0.1280.800@0.0.1280.800" timestamp="1589503271464" />
     <state width="1238" height="259" key="GridCell.Tab.0.center/0.23.1280.732@0.23.1280.732" timestamp="1588570933545" />
-    <state width="1238" height="286" key="GridCell.Tab.0.left" timestamp="1589443990148">
+    <state width="1238" height="242" key="GridCell.Tab.0.left" timestamp="1589503271463">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="286" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1589443990148" />
+    <state width="1238" height="242" key="GridCell.Tab.0.left/0.0.1280.800@0.0.1280.800" timestamp="1589503271463" />
     <state width="1238" height="259" key="GridCell.Tab.0.left/0.23.1280.732@0.23.1280.732" timestamp="1588570933544" />
-    <state width="1238" height="286" key="GridCell.Tab.0.right" timestamp="1589443990150">
+    <state width="1238" height="242" key="GridCell.Tab.0.right" timestamp="1589503271465">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="286" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1589443990150" />
+    <state width="1238" height="242" key="GridCell.Tab.0.right/0.0.1280.800@0.0.1280.800" timestamp="1589503271465" />
     <state width="1238" height="259" key="GridCell.Tab.0.right/0.23.1280.732@0.23.1280.732" timestamp="1588570933547" />
-    <state width="1238" height="286" key="GridCell.Tab.1.bottom" timestamp="1589443990155">
+    <state width="1238" height="242" key="GridCell.Tab.1.bottom" timestamp="1589503271468">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="286" key="GridCell.Tab.1.bottom/0.0.1280.800@0.0.1280.800" timestamp="1589443990155" />
-    <state width="1238" height="286" key="GridCell.Tab.1.center" timestamp="1589443990153">
+    <state width="1238" height="242" key="GridCell.Tab.1.bottom/0.0.1280.800@0.0.1280.800" timestamp="1589503271468" />
+    <state width="1238" height="242" key="GridCell.Tab.1.center" timestamp="1589503271467">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="286" key="GridCell.Tab.1.center/0.0.1280.800@0.0.1280.800" timestamp="1589443990153" />
-    <state width="1238" height="286" key="GridCell.Tab.1.left" timestamp="1589443990151">
+    <state width="1238" height="242" key="GridCell.Tab.1.center/0.0.1280.800@0.0.1280.800" timestamp="1589503271467" />
+    <state width="1238" height="242" key="GridCell.Tab.1.left" timestamp="1589503271466">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="286" key="GridCell.Tab.1.left/0.0.1280.800@0.0.1280.800" timestamp="1589443990151" />
-    <state width="1238" height="286" key="GridCell.Tab.1.right" timestamp="1589443990154">
+    <state width="1238" height="242" key="GridCell.Tab.1.left/0.0.1280.800@0.0.1280.800" timestamp="1589503271466" />
+    <state width="1238" height="242" key="GridCell.Tab.1.right" timestamp="1589503271467">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="286" key="GridCell.Tab.1.right/0.0.1280.800@0.0.1280.800" timestamp="1589443990154" />
-    <state width="1238" height="286" key="GridCell.Tab.2.bottom" timestamp="1589443990158">
+    <state width="1238" height="242" key="GridCell.Tab.1.right/0.0.1280.800@0.0.1280.800" timestamp="1589503271467" />
+    <state width="1238" height="242" key="GridCell.Tab.2.bottom" timestamp="1589503271471">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="286" key="GridCell.Tab.2.bottom/0.0.1280.800@0.0.1280.800" timestamp="1589443990158" />
-    <state width="1238" height="286" key="GridCell.Tab.2.center" timestamp="1589443990156">
+    <state width="1238" height="242" key="GridCell.Tab.2.bottom/0.0.1280.800@0.0.1280.800" timestamp="1589503271471" />
+    <state width="1238" height="242" key="GridCell.Tab.2.center" timestamp="1589503271469">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="286" key="GridCell.Tab.2.center/0.0.1280.800@0.0.1280.800" timestamp="1589443990156" />
-    <state width="1238" height="286" key="GridCell.Tab.2.left" timestamp="1589443990156">
+    <state width="1238" height="242" key="GridCell.Tab.2.center/0.0.1280.800@0.0.1280.800" timestamp="1589503271469" />
+    <state width="1238" height="242" key="GridCell.Tab.2.left" timestamp="1589503271469">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="286" key="GridCell.Tab.2.left/0.0.1280.800@0.0.1280.800" timestamp="1589443990156" />
-    <state width="1238" height="286" key="GridCell.Tab.2.right" timestamp="1589443990157">
+    <state width="1238" height="242" key="GridCell.Tab.2.left/0.0.1280.800@0.0.1280.800" timestamp="1589503271469" />
+    <state width="1238" height="242" key="GridCell.Tab.2.right" timestamp="1589503271470">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state width="1238" height="286" key="GridCell.Tab.2.right/0.0.1280.800@0.0.1280.800" timestamp="1589443990157" />
+    <state width="1238" height="242" key="GridCell.Tab.2.right/0.0.1280.800@0.0.1280.800" timestamp="1589503271470" />
     <state x="149" y="39" key="SettingsEditor" timestamp="1589425413002">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="149" y="39" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1589425413002" />
-    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1589438687700">
+    <state x="192" y="143" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1589491957736">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup/0.0.1280.800@0.0.1280.800" timestamp="1589438687700" />
+    <state x="192" y="143" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1280.800@0.0.1280.800" timestamp="1589491957736" />
+    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup" timestamp="1589500716885">
+      <screen x="0" y="0" width="1280" height="800" />
+    </state>
+    <state x="305" y="124" width="670" height="676" key="search.everywhere.popup/0.0.1280.800@0.0.1280.800" timestamp="1589500716885" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Core/Src/main.c</url>
+          <line>587</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/Core/Src/main.c</url>
+          <line>171</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+      </breakpoints>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="com.jetbrains.cidr.embedded.openocd.conf.type">
         <watch expression="CAN_id" language="ObjectiveC" />
-        <watch expression="encoder_settings" language="ObjectiveC" />
         <watch expression="encoder" language="ObjectiveC" />
+        <watch expression="encoder_settings" language="ObjectiveC" />
         <watch expression="hspi1" language="ObjectiveC" />
+        <watch expression="hi2c2" language="ObjectiveC" />
+        <watch expression="i2c_buffer" language="ObjectiveC" />
         <watch expression="encoder_diagnostics" language="ObjectiveC" />
       </configuration>
     </watches-manager>

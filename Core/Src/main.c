@@ -25,11 +25,11 @@
 /* USER CODE BEGIN Includes */
 #include <string.h>
 #include <stdbool.h>
-#include <encoder.h>
 
 #include "utils.h"
 #include "memory.h"
 #include "encoder.h"
+#include "can.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -74,9 +74,13 @@ static void MX_TIM2_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+#define HAL_CHECK(func) if((func) != HAL_OK) { Error_Handler(); }
+
 int16_t CAN_id;
 bool power_ok;
-uint8_t i2c_buffer[100];
+
+uint64_t i2c_buffer;
 
 Encoder_t encoder;
 EncoderSettings_t encoder_settings;
@@ -121,7 +125,9 @@ int main(void)
   MX_SPI1_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-  HAL_CAN_Start(&hcan); // check for error
+  if(HAL_CAN_Start(&hcan)) {
+      Error_Handler();
+  }
 
   CAN_id = 0b00000000;
   CAN_id += (HAL_GPIO_ReadPin(CAN_ID_1_GPIO_Port, CAN_ID_1_Pin) << 0u);
@@ -147,8 +153,31 @@ int main(void)
   encoder_settings.settings1.pwmon = 1;
   encoder_settings.settings2 = 0x0;
 
-  encoder_config_all_settings(&hspi1, &encoder, &encoder_settings);
-  encoder_get_absolute_position(&hspi1, &encoder);
+//  if(encoder_config_all_settings(&hspi1, &encoder, &encoder_settings) != HAL_OK) {
+//      Error_Handler();
+//  }
+    HAL_CHECK(encoder_config_all_settings(&hspi1, &encoder, &encoder_settings));
+
+  if(encoder_get_absolute_position(&hspi1, &encoder) != HAL_OK) {
+      Error_Handler();
+  }
+
+  //eeprom
+
+//    memset(i2c_buffer, 0, 128);
+    #ifdef RESET_EEPROM_MEMORY
+        HAL_CHECK(eeprom_clear_all(&hi2c2));
+    #endif
+
+    HAL_CHECK(eeprom_read_page(&hi2c2, ENCODER_TICKS_LOCATION, &i2c_buffer));
+    encoder.count = (int32_t) i2c_buffer;
+
+    HAL_CHECK(eeprom_read_page(&hi2c2, ENCODER_POLARITY_LOCATION, &i2c_buffer));
+
+    HAL_CHECK(eeprom_read_page(&hi2c2, ENCODER_ABSOLUTE_OFFSET_LOCATION, &i2c_buffer));
+
+    HAL_CHECK(eeprom_read_page(&hi2c2, FEEDBACK_PERIOD_LOCATION, &i2c_buffer));
+
 
   /* USER CODE END 2 */
 
@@ -159,7 +188,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//    HAL_GPIO_WritePin(STATUS_3_GPIO_Port, STATUS_3_Pin, 1);
     #ifdef HAS_5V5
         power_ok = HAL_GPIO_ReadPin(POWER_SENSE_GPIO_Port, POWER_SENSE_Pin);
     #else
@@ -168,11 +196,23 @@ int main(void)
     // check for panic (ie: the power is lo
     if(!power_ok) {
         // panic
-        memcpy_v(i2c_buffer, &encoder.count, 4);
-        memcpy_v(i2c_buffer + 4, &encoder.inverted, 1);
-        memcpy_v(i2c_buffer + 5, &encoder.absolute_offset, 4);
-//        memcpy_v(i2c_buffer + 9, &encoder.)
-        HAL_I2C_Mem_Write_DMA(&hi2c2, EEPROM_ADDRESS, 0, 1, i2c_buffer, 11);
+        __disable_irq();
+        HAL_GPIO_WritePin(STATUS_1_GPIO_Port, STATUS_1_Pin, 0);
+        HAL_GPIO_WritePin(STATUS_2_GPIO_Port, STATUS_2_Pin, 0);
+        HAL_GPIO_WritePin(STATUS_3_GPIO_Port, STATUS_3_Pin, 0);
+
+        i2c_buffer = encoder.count;
+        HAL_CHECK(eeprom_write_page(&hi2c2, ENCODER_TICKS_LOCATION, &i2c_buffer));
+        i2c_buffer = encoder.inverted;
+        HAL_CHECK(eeprom_write_page(&hi2c2, ENCODER_POLARITY_LOCATION, &i2c_buffer));
+        i2c_buffer = encoder.absolute_offset;
+        HAL_CHECK(eeprom_write_page(&hi2c2, ENCODER_ABSOLUTE_OFFSET_LOCATION, &i2c_buffer));
+        i2c_buffer = 20; // CHANGE THIS LATER
+        HAL_CHECK(eeprom_write_page(&hi2c2, FEEDBACK_PERIOD_LOCATION, &i2c_buffer));
+
+        // wait until power is back
+        while(!HAL_GPIO_ReadPin(POWER_SENSE_GPIO_Port, POWER_SENSE_Pin)) {}
+        __enable_irq();
         continue;
     }
 
@@ -185,8 +225,9 @@ int main(void)
 
       encoder_get_diagnostics(&hspi1, &encoder, &encoder_diagnostics);
       encoder_get_errors(&hspi1, &encoder, &encoder_diagnostics);
+      encoder_get_absolute_position(&hspi1, &encoder);
 
-      // display status1 led if magnet placement is good
+      // turn off status1 led if magnet placement is good
       if(!encoder_diagnostics.mag_low && !encoder_diagnostics.mag_high) {
           HAL_GPIO_WritePin(STATUS_2_GPIO_Port, STATUS_2_Pin, 0);
       } else {
@@ -265,7 +306,7 @@ static void MX_CAN_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN CAN_Init 2 */
-    CAN_FilterTypeDef can_filter;
+    CAN_FilterTypeDef can_filter = {};
 
     can_filter.FilterFIFOAssignment = CAN_RX_FIFO0;
     can_filter.FilterMode = CAN_FILTERMODE_IDMASK;
@@ -368,6 +409,7 @@ static void MX_TIM2_Init(void)
 
   /* USER CODE END TIM2_Init 0 */
 
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_SlaveConfigTypeDef sSlaveConfig = {0};
   TIM_IC_InitTypeDef sConfigIC = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
@@ -381,6 +423,15 @@ static void MX_TIM2_Init(void)
   htim2.Init.Period = 0;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
   if (HAL_TIM_IC_Init(&htim2) != HAL_OK)
   {
     Error_Handler();
@@ -518,7 +569,7 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Callback(uint16_t pin) {
     if(pin == ENC_A_Pin || pin == ENC_B_Pin) {
-        static bool a_high, b_high;
+        bool a_high, b_high;
         a_high = HAL_GPIO_ReadPin(ENC_A_GPIO_Port, ENC_A_Pin);
         b_high = HAL_GPIO_ReadPin(ENC_B_GPIO_Port, ENC_B_Pin);
         encoder_update_count(&encoder, a_high, b_high);
@@ -537,7 +588,15 @@ void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
-
+  HAL_GPIO_WritePin(STATUS_1_GPIO_Port, STATUS_1_Pin, 0);
+  HAL_GPIO_WritePin(STATUS_2_GPIO_Port, STATUS_2_Pin, 0);
+  HAL_GPIO_WritePin(STATUS_3_GPIO_Port, STATUS_3_Pin, 0);
+  for(;;) {
+      HAL_Delay(250);
+      HAL_GPIO_TogglePin(STATUS_1_GPIO_Port, STATUS_1_Pin);
+      HAL_GPIO_TogglePin(STATUS_2_GPIO_Port, STATUS_2_Pin);
+      HAL_GPIO_TogglePin(STATUS_3_GPIO_Port, STATUS_3_Pin);
+  }
   /* USER CODE END Error_Handler_Debug */
 }
 
