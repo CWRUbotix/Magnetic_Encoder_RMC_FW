@@ -153,9 +153,6 @@ int main(void)
   encoder_settings.settings1.pwmon = 1;
   encoder_settings.settings2 = 0x0;
 
-//  if(encoder_config_all_settings(&hspi1, &encoder, &encoder_settings) != HAL_OK) {
-//      Error_Handler();
-//  }
     HAL_CHECK(encoder_config_all_settings(&hspi1, &encoder, &encoder_settings));
 
   if(encoder_get_absolute_position(&hspi1, &encoder) != HAL_OK) {
